@@ -50,7 +50,12 @@
     $("progressFill").style.width=`${pct}%`;
     $("progressPct").textContent=`${pct.toLocaleString("ru-RU",{maximumFractionDigits:1})}% выполнено`;
     $("remainingAmount").textContent=remaining?`Осталось ${money(remaining)}`:"Цель выполнена 🎉";
-    $("earnedStat").textContent=money(earned);
+    $("monthIncome").textContent=money(earned);
+    $("monthExpenses").textContent=money(expenses);
+    const net=earned-expenses;
+    $("monthNet").textContent=(net>0?"+":"")+money(net);
+    $("monthNet").classList.toggle("income-text",net>0);
+    $("monthNet").classList.toggle("expense-text",net<0);
     const pace=calcDailyNeed(viewMonth);
     $("dailyNeed").textContent=pace.past?"—":money(pace.need);
     const daysPassed=monthKey(viewMonth)===monthKey(today)?today.getDate():Math.max(1,new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,0).getDate());

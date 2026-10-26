@@ -35,19 +35,24 @@
         <span id="progressPct">0% выполнено</span>
         <span id="remainingAmount">Осталось 250 000 ₽</span>
       </div>
-      <div class="stats-grid">
-        <div class="stat">
-          <span class="muted">Заработано</span>
-          <strong id="earnedStat">0 ₽</strong>
+      <div class="month-finances-label">ФИНАНСЫ ЗА МЕСЯЦ</div>
+      <div class="month-finances">
+        <div class="finance-tile income-tile">
+          <span><i></i> Доходы</span>
+          <strong id="monthIncome">0 ₽</strong>
         </div>
-        <div class="stat">
-          <span class="muted">Сегодня нужно</span>
-          <strong class="accent" id="dailyNeed">8 065 ₽</strong>
+        <div class="finance-tile expense-tile">
+          <span><i></i> Расходы</span>
+          <strong id="monthExpenses">0 ₽</strong>
         </div>
-        <div class="stat">
-          <span class="muted">Средний доход</span>
-          <strong id="dailyAverage">0 ₽</strong>
+        <div class="finance-tile net-tile">
+          <span><i></i> Остаток</span>
+          <strong id="monthNet">0 ₽</strong>
         </div>
+      </div>
+      <div class="pace-grid">
+        <div class="pace-item"><span class="muted">Нужно в день</span><strong class="accent" id="dailyNeed">8 065 ₽</strong></div>
+        <div class="pace-item"><span class="muted">Средний доход в день</span><strong id="dailyAverage">0 ₽</strong></div>
       </div>
       <div class="hint" id="paceHint">Дневная цель пересчитывается по оставшимся дням месяца.</div>
     </section>
