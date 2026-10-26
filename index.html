@@ -57,7 +57,7 @@
       <div class="hint" id="paceHint">Дневная цель пересчитывается по оставшимся дням месяца.</div>
     </section>
 
-    <section class="section calendar-section">
+    <section class="section calendar-section" id="calendarSection">
       <div class="section-title">
         <div>
           <div class="eyebrow">ТВОЙ РИТМ</div>
@@ -76,7 +76,7 @@
       <div class="legend"><span><i class="legend-dot income-dot"></i> Доход</span><span><i class="legend-dot expense-dot"></i> Расход</span><span>Нажми на день, чтобы добавить операцию</span></div>
     </section>
 
-    <section class="section day-section">
+    <section class="section day-section" id="daySection">
       <div class="section-title">
         <div>
           <div class="eyebrow">ОПЕРАЦИИ</div>
@@ -88,7 +88,23 @@
       <div id="operationsList" class="operations-list"></div>
     </section>
 
-    <footer>Данные хранятся на этом устройстве. Сделай экспорт резервной копии в настройках.</footer>
+    <section class="section stats-section" id="statsSection" hidden>
+    <div class="section-title"><div><div class="eyebrow">АНАЛИТИКА</div><h2>Статистика</h2></div><span class="stats-period" id="statsMonthLabel"></span></div>
+    <div class="stats-grid">
+      <div class="stat-card"><span>Доходы</span><strong class="income-text" id="statsIncome">0 ₽</strong><div class="stat-track"><i id="incomeBar"></i></div></div>
+      <div class="stat-card"><span>Расходы</span><strong class="expense-text" id="statsExpenses">0 ₽</strong><div class="stat-track"><i id="expenseBar"></i></div></div>
+    </div>
+    <div class="chart-card"><div class="chart-title">Доходы и расходы по дням</div><div id="dailyChart" class="daily-chart" aria-label="График доходов и расходов"></div><div class="chart-legend"><span><i class="income-dot"></i> Доходы</span><span><i class="expense-dot"></i> Расходы</span></div></div>
+    <div class="chart-card"><div class="chart-title">Расходы по категориям</div><div id="categoryChart" class="category-chart"></div></div>
+    <div class="chart-card"><div class="chart-title">Сводка по категориям</div><div id="categoryStatsList" class="category-stats-list"></div></div>
+  </section>
+  <nav class="bottom-nav" aria-label="Основная навигация">
+    <button class="nav-item active" data-view="home"><span>⌂</span><small>Главная</small></button>
+    <button class="nav-item" data-view="calendar"><span>▦</span><small>Календарь</small></button>
+    <button class="nav-item" data-view="stats"><span>▥</span><small>Статистика</small></button>
+    <button class="nav-item" id="navSettingsBtn"><span>⚙</span><small>Настройки</small></button>
+  </nav>
+  <footer>Данные хранятся на этом устройстве. Регулярно сохраняй резервную копию.</footer>
   </main>
 
   <dialog id="operationDialog">
@@ -102,8 +118,10 @@
       <input type="hidden" id="operationType" value="income">
       <label for="operationAmount">Сумма, ₽</label>
       <input id="operationAmount" type="number" min="1" step="1" inputmode="decimal" placeholder="Например, 8500" required>
-      <label for="operationCategory">Категория / комментарий</label>
-      <input id="operationCategory" maxlength="70" placeholder="Смена, еда, транспорт…">
+      <label for="operationCategorySelect">Категория</label>
+      <select id="operationCategorySelect"><option value="">Без категории</option></select>
+      <label for="operationCategory">Или свой текст / комментарий</label>
+      <input id="operationCategory" maxlength="70" placeholder="Например, продукты на неделю…">
       <label for="operationDate">Дата</label>
       <input id="operationDate" type="date" required>
       <div class="dialog-actions"><button type="button" class="secondary-btn" data-close="operationDialog">Отмена</button><button class="primary-btn" type="submit">Сохранить</button></div>
@@ -126,7 +144,15 @@
       <label for="workDays">Учитывать в дневной цели</label>
       <select id="workDays"><option value="all">Все оставшиеся дни</option><option value="weekdays">Только будни (Пн–Пт)</option></select>
       <p class="muted small">По умолчанию считаем все дни месяца, как при работе без выходных.</p>
+      <div class="settings-divider"></div>
+      <h3 class="settings-heading">Категории операций</h3>
+      <p class="muted tiny">Добавляй свои категории. Они появятся в форме операции и в статистике расходов.</p>
+      <div class="category-create"><input id="newCategoryInput" maxlength="35" placeholder="Новая категория"><button class="primary-btn" id="addCategoryBtn" type="button">Добавить</button></div>
+      <div id="categorySettingsList" class="category-settings-list"></div>
+      <div class="settings-divider"></div>
+      <h3 class="settings-heading">Резервные копии</h3>
       <button class="secondary-btn full" id="exportBtn">Экспортировать резервную копию JSON</button>
+      <button class="secondary-btn full" id="exportCsvBtn">Скачать операции в CSV</button>
       <label class="secondary-btn full import-label" for="importFile">Импортировать резервную копию JSON</label>
       <input id="importFile" type="file" accept="application/json" hidden>
       <button class="danger-btn full" id="resetBtn">Удалить все данные</button>
