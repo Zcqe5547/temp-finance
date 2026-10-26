@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Темп">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>Темп — финансовый трекер</title>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">ЛИЧНЫЕ ФИНАНСЫ</div>
+        <h1>Темп<span class="dot">.</span></h1>
+      </div>
+      <button class="icon-btn" id="settingsBtn" aria-label="Настройки">⚙</button>
+    </header>
+
+    <section class="goal-card">
+      <div class="card-head">
+        <div>
+          <div class="muted small" id="monthLabel">МЕСЯЧНАЯ ЦЕЛЬ</div>
+          <div class="goal-amount" id="goalAmount">250 000 ₽</div>
+        </div>
+        <button class="edit-link" id="editGoalBtn">Изменить цель</button>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-meta">
+        <span id="progressPct">0% выполнено</span>
+        <span id="remainingAmount">Осталось 250 000 ₽</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="muted">Заработано</span>
+          <strong id="earnedStat">0 ₽</strong>
+        </div>
+        <div class="stat">
+          <span class="muted">Сегодня нужно</span>
+          <strong class="accent" id="dailyNeed">8 065 ₽</strong>
+        </div>
+        <div class="stat">
+          <span class="muted">Средний доход</span>
+          <strong id="dailyAverage">0 ₽</strong>
+        </div>
+      </div>
+      <div class="hint" id="paceHint">Дневная цель пересчитывается по оставшимся дням месяца.</div>
+    </section>
+
+    <section class="section calendar-section">
+      <div class="section-title">
+        <div>
+          <div class="eyebrow">ТВОЙ РИТМ</div>
+          <h2>Календарь</h2>
+        </div>
+        <div class="month-switch">
+          <button class="icon-btn small-btn" id="prevMonth" aria-label="Предыдущий месяц">‹</button>
+          <span id="calendarMonth"></span>
+          <button class="icon-btn small-btn" id="nextMonth" aria-label="Следующий месяц">›</button>
+        </div>
+      </div>
+      <div class="weekday-row">
+        <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <div class="legend"><span><i class="legend-dot income-dot"></i> Доход</span><span><i class="legend-dot expense-dot"></i> Расход</span><span>Нажми на день, чтобы добавить операцию</span></div>
+    </section>
+
+    <section class="section day-section">
+      <div class="section-title">
+        <div>
+          <div class="eyebrow">ОПЕРАЦИИ</div>
+          <h2 id="selectedDateTitle">Сегодня</h2>
+        </div>
+        <button class="primary-btn" id="addOperationBtn">＋ Добавить</button>
+      </div>
+      <div id="daySummary" class="day-summary"></div>
+      <div id="operationsList" class="operations-list"></div>
+    </section>
+
+    <footer>Данные хранятся на этом устройстве. Сделай экспорт резервной копии в настройках.</footer>
+  </main>
+
+  <dialog id="operationDialog">
+    <form id="operationForm" method="dialog" class="dialog-form">
+      <div class="dialog-head"><h2 id="operationDialogTitle">Новая операция</h2><button type="button" class="close-btn" data-close="operationDialog">×</button></div>
+      <label>Тип операции</label>
+      <div class="segmented">
+        <button type="button" class="segment active" data-type="income">Доход</button>
+        <button type="button" class="segment" data-type="expense">Расход</button>
+      </div>
+      <input type="hidden" id="operationType" value="income">
+      <label for="operationAmount">Сумма, ₽</label>
+      <input id="operationAmount" type="number" min="1" step="1" inputmode="decimal" placeholder="Например, 8500" required>
+      <label for="operationCategory">Категория / комментарий</label>
+      <input id="operationCategory" maxlength="70" placeholder="Смена, еда, транспорт…">
+      <label for="operationDate">Дата</label>
+      <input id="operationDate" type="date" required>
+      <div class="dialog-actions"><button type="button" class="secondary-btn" data-close="operationDialog">Отмена</button><button class="primary-btn" type="submit">Сохранить</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="goalDialog">
+    <form id="goalForm" method="dialog" class="dialog-form">
+      <div class="dialog-head"><h2>Месячная цель</h2><button type="button" class="close-btn" data-close="goalDialog">×</button></div>
+      <label for="goalInput">Сколько хочешь заработать за месяц, ₽</label>
+      <input id="goalInput" type="number" min="0" step="1000" required>
+      <p class="muted small">Цель относится к выбранному месяцу. Расходы её не уменьшают.</p>
+      <div class="dialog-actions"><button type="button" class="secondary-btn" data-close="goalDialog">Отмена</button><button class="primary-btn" type="submit">Сохранить цель</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="settingsDialog">
+    <div class="dialog-form">
+      <div class="dialog-head"><h2>Настройки и данные</h2><button type="button" class="close-btn" data-close="settingsDialog">×</button></div>
+      <label for="workDays">Учитывать в дневной цели</label>
+      <select id="workDays"><option value="all">Все оставшиеся дни</option><option value="weekdays">Только будни (Пн–Пт)</option></select>
+      <p class="muted small">По умолчанию считаем все дни месяца, как при работе без выходных.</p>
+      <button class="secondary-btn full" id="exportBtn">Экспортировать резервную копию JSON</button>
+      <label class="secondary-btn full import-label" for="importFile">Импортировать резервную копию JSON</label>
+      <input id="importFile" type="file" accept="application/json" hidden>
+      <button class="danger-btn full" id="resetBtn">Удалить все данные</button>
+      <p class="muted tiny">Экспорт сохраняет цели и операции. Держи копию в надёжном месте.</p>
+    </div>
+  </dialog>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
