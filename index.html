@@ -6,18 +6,18 @@
   <meta name="theme-color" content="#0b0d12">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Темп">
+  <meta name="apple-mobile-web-app-title" content="HustleСчетчик">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="styles.css">
-  <title>Темп — финансовый трекер</title>
+  <title>HustleСчетчик — финансовый трекер</title>
 </head>
 <body>
   <main class="app">
     <header class="topbar">
       <div>
         <div class="eyebrow">ЛИЧНЫЕ ФИНАНСЫ</div>
-        <h1>Темп<span class="dot">.</span></h1>
+        <h1>Hustle<span class="brand-accent">Счетчик</span><span class="dot">.</span></h1>
       </div>
       <button class="icon-btn" id="settingsBtn" aria-label="Настройки">⚙</button>
     </header>
@@ -149,6 +149,23 @@
       <p class="muted tiny">Добавляй свои категории. Они появятся в форме операции и в статистике расходов.</p>
       <div class="category-create"><input id="newCategoryInput" maxlength="35" placeholder="Новая категория"><button class="primary-btn" id="addCategoryBtn" type="button">Добавить</button></div>
       <div id="categorySettingsList" class="category-settings-list"></div>
+      <div class="settings-divider"></div>
+      <h3 class="settings-heading">Оформление</h3>
+      <label for="themePreset">Тема приложения</label>
+      <select id="themePreset">
+        <option value="midnight">Midnight — графит и лайм</option>
+        <option value="ocean">Ocean — синий и бирюза</option>
+        <option value="violet">Violet — фиолетовый и розовый</option>
+        <option value="ember">Ember — янтарный и коралл</option>
+        <option value="forest">Forest — зелёный и мята</option>
+        <option value="ice">Ice — ледяной голубой</option>
+        <option value="custom">Свои два цвета</option>
+      </select>
+      <div id="customThemeControls" class="custom-theme-controls" hidden>
+        <div class="color-field"><label for="gradientColor1">Цвет градиента 1</label><input id="gradientColor1" type="color" value="#5ce1a0"></div>
+        <div class="color-field"><label for="gradientColor2">Цвет градиента 2</label><input id="gradientColor2" type="color" value="#72a7ff"></div>
+      </div>
+      <p class="muted tiny">Выбери готовую палитру или настрой два цвета. Блики на кнопках мягкие и не мешают читать интерфейс.</p>
       <div class="settings-divider"></div>
       <h3 class="settings-heading">Резервные копии</h3>
       <button class="secondary-btn full" id="exportBtn">Экспортировать резервную копию JSON</button>
